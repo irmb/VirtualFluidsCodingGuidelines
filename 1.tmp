@@ -1,0 +1,4 @@
+ int getMaxIterations() // NOT: MAX\_ITERATIONS = 25
+ {
+  return 25;
+ }

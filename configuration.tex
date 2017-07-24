@@ -1,0 +1,48 @@
+\input{styles/documentclass}
+
+\input{styles/titlepagestyles}
+\input{styles/pagestyles}
+\input{styles/chapterstyles}
+\input{styles/textstyles}
+
+\input{styles/codelistingstyles}
+\input{styles/equationstyles}
+
+\input{styles/listofacronymstyles}
+\input{styles/listoflistingsstyles}
+
+\input{styles/bibliographystyles}
+
+\input{language}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{blindtext}
+\usepackage{pdfpages} %includepdf command
+\usepackage{graphicx}
+\usepackage{colortbl}
+\usepackage{tabularx}
+\usepackage{filecontents}
+\graphicspath{{./img/kap1/}{./img/kap2/}}
+
+%%%%load hyperref at least package%%%%
+\providecommand\phantomsection{}
+\usepackage[
+pdftex,
+pdfpagemode={UseOutlines},
+pdfview={Fit},
+pdfstartview={Fit},
+pdftitle    = {},
+pdfsubject  = {},
+pdfauthor   = {},
+pdfkeywords = {},
+colorlinks=true,
+linkcolor=black,
+menucolor=black,
+urlcolor=black,
+citecolor=black,
+linktocpage,
+bookmarksnumbered=true,
+bookmarksopen=true,
+]{hyperref}
+\usepackage{bookmark}

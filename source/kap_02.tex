@@ -1,0 +1,123 @@
+\chapter{Recommendations}
+\section{General Recommendations}
+\vspace{.5cm}
+\recommendation
+{Any violation to the guide is allowed if it enhances readability.}
+{}
+{The main goal of the recommendation is to improve readability and thereby the understanding and the maintainability and general quality of the code. It is impossible to cover all the specific cases in a general guide and the programmer should be flexible.}
+
+\recommendation
+{The rules can be violated if there are strong personal objections against them.}
+{}
+{The attempt is to make a guideline, not to force a particular coding style onto individuals. Experienced programmers normally want to adopt a style like this anyway, but having one, and at least requiring everyone to get familiar with it, usually makes people start thinking about programming style and evaluate their own habits in this area.\newline
+On the other hand, new and inexperienced programmers normally use a style guide as a convenience of getting into the programming jargon more easily.}
+
+\section{Naming Recommendations}
+\subsection{General Naming Conventions}
+\recommendation
+{Names representing types must be in mixed case starting with upper case (Pascal Casing).}
+{Line, SavingsAccount}
+{Common practice in the C++ development community.}
+
+\recommendation
+{Variable names and attribute names must be in mixed case starting with lower case (Camel Casing).}
+{line, savingsAccount}
+{Common practice in the C++ development community. Makes variables easy to distinguish from types, and effectively resolves potential naming collision as in the declaration Line line;}
+
+\begin{filecontents*}{\jobname.abc}
+	int getMaxIterations() // NOT: MAX_ITERATIONS = 25
+	{
+	    return 25;
+	}
+\end{filecontents*}
+
+\recommendation
+{Named constants (including enumeration values) must be all uppercase using underscore to separate words.}
+{MAX\_ITERATIONS, COLOR\_RED, PI}
+{
+	Common practice in the C++ development community. In general, the use of such constants should be minimized. In many cases implementing the value as a method is a better choice:
+
+	\lstinputlisting{\jobname.abc}
+	
+	This form is both easier to read, and it ensures a unified interface towards class values.
+}
+
+\recommendation
+{Names representing methods or functions must be verbs and written in mixed case starting with lower case (Camel Casing).}
+{getName(), computeTotalWidth()}
+{Common practice in the C++ development community. This is identical to variable names, but functions in C++ are already distingushable from variables by their specific form.}
+
+\recommendation
+{Names representing namespaces should be all lowercase.}
+{model::analyzer, io::iomanager, common::math::geometry}
+{Common practice in the C++ development community}
+
+\recommendation
+{Names representing template types should be a single uppercase letter.}
+{
+	template\textless class T\textgreater ... \newline
+	template\textless class C, class D\textgreater ...
+}
+{Common practice in the C++ development community. This makes template names stand out relative to all other names used.}
+
+\recommendation
+{Abbreviations and acronyms must not be uppercase when used as name.}
+{
+	exportHtmlSource(); // NOT: exportHTMLSource(); \newline
+	openDvdPlayer();    // NOT: openDVDPlayer();
+}
+{Using all uppercase for the base name will give conflicts with the naming conventions given above. A variable of this type whould have to be named dVD, hTML etc. which obviously is not very readable. Another problem is illustrated in the examples above; When the name is connected to another, the readbility is seriously reduced; the word following the abbreviation does not stand out as it should.}
+
+\recommendation
+{Generic variables should have the same name as their type.}
+{
+	\begin{tabularx}{\textwidth}{l l}
+	 void setTopic(Topic* topic) &//NOT: void setTopic(Topic* value) \\
+	 &//NOT: void setTopic(Topic* aTopic) \\
+	 &//NOT: void setTopic(Topic* t) \\
+	 void connect(Database* database) &//NOT: void connect(Database* db) \\
+	 &//NOT: void connect (Database* oracleDB)
+	\end{tabularx}
+}
+{Reduce complexity by reducing the number of terms and names used. Also makes it easy to deduce the type given a variable name only.\newline
+If for some reason this convention doesn't seem to fit it is a strong indication that the type name is badly chosen.\newline
+Non-generic variables have a role. These variables can often be named by combining role and type:\newline
+Point  startingPoint, centerPoint;\newline
+Name   loginName;\newline
+}
+
+\recommendation
+{All names must be written in English.}
+{fileName; // NOT: dateiName}
+{English is the preferred language for international development.}
+
+\recommendation
+{Variables with a large scope should have long names, variables with a small scope can have short names.}
+{}
+{Scratch variables used for temporary storage or indices are best kept short. A programmer reading such variables should be able to assume that its value is not used outside of a few lines of code. Common scratch variables for integers are \textit{i, j, k, m, n} and for characters \textit{c} and \textit{d}.}
+
+\recommendation
+{The name of the object is implicit, and should be avoided in a method name.}
+{line.getLength(); // NOT: line.getLineLength();}
+{The latter seems natural in the class declaration, but proves superfluous in use, as shown in the example.}
+
+\section{Specific Naming Conventions}
+
+\recommendation
+{The terms \textit{get/set} must be used where an attribute is accessed directly.}
+{
+	employee.getName();\newline
+	employee.setName(name);\newline
+	
+	matrix.getElement(2, 4);\newline
+	matrix.setElement(2, 4, value);
+}
+{Common practice in the C++ development community. In Java this convention has become more or less standard.}
+
+\recommendation
+{The term compute can be used in methods where something is computed.}
+{
+	valueSet-\textgreater computeAverage();\newline
+	matrix-\textgreater computeInverse()
+}
+{Give the reader the immediate clue that this is a potentially time-consuming operation, and if used repeatedly, he might consider caching the result. Consistent use of the term enhances readability.}
