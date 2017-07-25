@@ -25,10 +25,10 @@
 \newcounter{tabCounter}
 \newcommand{\recommendation}[3]{
 	\stepcounter{tabCounter}
-	\begin{tabular}{|p{\textwidth}|}
+	\begin{tabular}{|p{\linewidth}|}
 		\hline
 		\rowcolor{gray}
-		\arabic{tabCounter}. #1\\
+		\textbf{\arabic{tabCounter}. #1}\\
 		\hline
 		#2\\
 		\\
@@ -37,3 +37,7 @@
 		\hline
 	\end{tabular}
 }
+
+\newcommand{\pointer}{-\textgreater}
+
+\newcommand{\template}[1]{\textless #1\textgreater}

@@ -115,9 +115,893 @@ Name   loginName;\newline
 {Common practice in the C++ development community. In Java this convention has become more or less standard.}
 
 \recommendation
-{The term compute can be used in methods where something is computed.}
+{The term \textit{compute} can be used in methods where something is computed.}
 {
 	valueSet-\textgreater computeAverage();\newline
 	matrix-\textgreater computeInverse()
 }
 {Give the reader the immediate clue that this is a potentially time-consuming operation, and if used repeatedly, he might consider caching the result. Consistent use of the term enhances readability.}
+
+\recommendation
+{The term \textit{find} can be used in methods where something is looked up.}
+{
+	vertex.findNearestVertex(); \newline
+	matrix.findMinElement();
+}
+{Give the reader the immediate clue that this is a simple look up method with a minimum of computations involved. Consistent use of the term enhances readability.}
+
+\recommendation
+{The term \textit{initialize} can be used where an object or a concept is established.}
+{printer.initializeFontSet();}
+{The american initialize should be preferred over the English initialise. Abbreviation init should be avoided.}
+
+\recommendation
+{Variables representing GUI components should be suffixed by the component type name.}
+{mainWindow, propertiesDialog, widthScale, loginText, leftScrollbar, mainForm, fileMenu, minLabel, exitButton, yesToggle etc.}
+{Enhances readability since the name gives the user an immediate clue of the type of the variable and thereby the objects resources.}
+
+\begin{filecontents*}{\jobname.abc}
+	vector<Point>  points;
+	int            values[];
+\end{filecontents*}
+
+\recommendation
+{Plural form should be used on names representing a collection of objects.}
+{\lstinputlisting{\jobname.abc}}
+{Enhances readability since the name gives the user an immediate clue of the type of the variable and the operations that can be performed on its elements.}
+
+\recommendation
+{The prefix \textit{n} should be used for variables representing a number of objects.}
+{nPoints, nLines}
+{The notation is taken from mathematics where it is an established convention for indicating a number of objects.}
+
+\begin{filecontents*}{\jobname.abc}
+	iTable = tables[i];
+\end{filecontents*}
+
+\recommendation
+{The prefix \textit{i} should be used for variables representing an entity number.}
+{iTable, iEmployee }
+{
+	This effectively makes them \textit{named} iterators.\newline
+	e.g.
+	\lstinputlisting{\jobname.abc}
+}
+
+\begin{filecontents*}{\jobname.abc}
+	for (int i = 0; i < nTables); i++) {
+		...
+	}
+	
+	for (vector<MyClass>::iterator i = list.begin(); i != list.end(); i++) {
+		Element element = *i;
+		...
+	}
+\end{filecontents*}
+
+\recommendation
+{Iterators and indices should be called \textit{i, j, k} etc., unless there is a specific meaning (e.g. \textit{x} for coordinate)}
+{\lstinputlisting{\jobname.abc}}
+{
+	The notation is taken from mathematics where it is an established convention for indicating iterators.\newline
+	Variables named \textit{j}, \textit{k} etc. should be used for nested loops only.
+}
+
+\recommendation
+{The prefix \textit{is} should be used for boolean variables and methods.}
+{isSet, isVisible, isFinished, isFound, isOpen}
+{
+	Common practice in the C++ development community and partially enforced in Java.\newline
+	Using the is prefix solves a common problem of choosing bad boolean names like status or flag. \textit{isStatus} or \textit{isFlag} simply doesn't fit, and the programmer is forced to choose more meaningful names.\newline
+	There are a few alternatives to the \textit{is} prefix that fit better in some situations. These are the \textit{has}, \textit{can} and \textit{should} prefixes:\newline
+	bool hasLicense();\newline
+	bool canEvaluate();\newline
+	bool shouldSort();\newline
+}
+
+\recommendation
+{Complement names must be used for complement operations.}
+{
+	get/set, add/remove, create/destroy, start/stop, insert/delete,
+	increment/decrement, old/new, begin/end, first/last, up/down, min/max,
+	next/previous, old/new, open/close, show/hide, suspend/resume, etc.
+}
+{Reduce complexity by symmetry.}
+
+\recommendation
+{Abbreviations in names should be avoided}
+{computeAverage(); //NOT: compAvg();}
+{
+	There are two types of words to consider. First are the common words listed in a language dictionary. These must never be abbreviated. Never write:\newline
+	cmd   instead of   command\newline
+	cp    instead of   copy\newline
+	pt    instead of   point\newline
+	comp  instead of   compute\newline
+	init  instead of   initialize\newline
+	etc.\newline
+	Then there are domain specific phrases that are more naturally known through their abbreviations/acronym. These phrases should be kept abbreviated. Never write:\newline
+	HypertextMarkupLanguage  instead of   html\newline
+	CentralProcessingUnit    instead of   cpu\newline
+	PriceEarningRatio        instead of   pe\newline
+	etc.
+}
+
+\recommendation
+{Naming pointers specifically should be avoided.}
+{
+	\begin{tabularx}{\textwidth}{ll}
+		Line* line;&// NOT: Line* pLine;\\
+		&// NOT: LIne* linePtr;
+	\end{tabularx}
+}
+{Many variables in a C/C++ environment are pointers, so a convention like this is almost impossible to follow. Also objects in C++ are often oblique types where the specific implementation should be ignored by the programmer. Only when the actual type of an object is of special significance, the name should emphasize the type.}
+
+\recommendation
+{Negated boolean variable names must be avoided.}
+{
+	bool isError; // NOT: isNoError\newline
+	bool isFound; // NOT: isNotFound
+}
+{The problem arises when such a name is used in conjunction with the logical negation operator as this results in a double negative. It is not immediately apparent what !isNotFound means.}
+
+\begin{filecontents*}{\jobname.abc}
+	class AccessException
+	{
+		...
+	}
+\end{filecontents*}
+
+\recommendation
+{Exception classes should be suffixed with \textit{Exception}.}
+{\lstinputlisting{\jobname.abc}}
+{Exception classes are really not part of the main design of the program, and naming them like this makes them stand out relative to the other classes.}
+
+\recommendation
+{Functions (methods returning something) should be named after what they return and procedures (\textit{void} methods) after what they do.}
+{}
+{Increase readability. Makes it clear what the unit should do and especially all the things it is not supposed to do. This again makes it easier to keep the code clean of side effects.}
+
+\section{Files}
+\subsection{Source Files}
+
+\recommendation
+{C++ header files must have the extension \textit{.h} (preferred) or \textit{.hpp}. Source files must have the extension \textit{.cpp}. In Addition \textit{.cu} for cuda definition files and \textit{.cuh} for \textit{cuda} header files.}
+{MyClass.cpp, MyClass.h}
+{These are all accepted C++ standards for file extension.}
+
+\recommendation
+{A class should be declared in a header file and defined in a source file where the name of the files match the name of the class.}
+{MyClass.h, MyClass.cpp}
+{Makes it easy to find the associated files of a given class. An obvious exception is template classes that must be both declared and defined inside a .h file.}
+
+
+\begin{filecontents*}{\jobname.abc}
+	class MyClass
+	{
+		public:
+		int getValue () {return value_;}  // NO!
+		...
+		private:
+		int value_;
+	}
+\end{filecontents*}
+
+\recommendation
+{All definitions should reside in source files.}
+{\lstinputlisting{\jobname.abc}}
+{The header files should declare an interface, the source file should implement it. When looking for an implementation, the programmer should always know that it is found in the source file.}
+
+\recommendation
+{
+	Special characters like TAB and page break must be avoided.\newline
+	Rule: TAB = 4 spaces\newline
+	indent = 4 spaces
+}
+{}
+{These characters are bound to cause problem for editors, printers, terminal emulators or debuggers when used in a multi-programmer, multi-platform environment.}
+
+
+\begin{filecontents*}{\jobname.abc}
+	totalSum = a + b + c +
+	d + e;
+	
+	function (param1, param2,
+	param3);
+	
+	setText ("Long line split"
+	"into two parts.");
+	
+	for (int tableNo = 0; tableNo < nTables;
+	tableNo += tableStep) {
+		...
+	}
+\end{filecontents*}
+
+\recommendation
+{The incompleteness of split lines must be made obvious.}
+{\lstinputlisting{\jobname.abc}}
+{
+	Split lines occurs when a statement exceed the 80 column limit given above. It is difficult to give rigid rules for how lines should be split, but the examples above should give a general hint.\newline
+	In general:\newline
+	Break after a comma.\newline
+	Break after an operator.\newline
+	Align the new line with the beginning of the expression on the previous line.
+}
+
+\subsection{Include Files and Include Statements}
+
+\begin{filecontents*}{\jobname.abc}
+	#ifndef COM_COMPANY_MODULE_CLASSNAME_H
+	#define COM_COMPANY_MODULE_CLASSNAME_H
+	:
+	#endif // COM_COMPANY_MODULE_CLASSNAME_H
+\end{filecontents*}
+
+\recommendation
+{Header files must contain an include guard.}
+{\lstinputlisting{\jobname.abc}}
+{The construction is to avoid compilation errors. The name convention resembles the location of the file inside the source tree and prevents naming conflicts.}
+
+
+\begin{filecontents*}{\jobname.abc}
+	#include <fstream>
+	#include <iomanip>
+	
+	#include <qt/qbutton.h>
+	#include <qt/qtextfield.h>
+	
+	#include "com/company/ui/PropertiesDialog.h"
+	#include "com/company/ui/MainWindow.h"
+\end{filecontents*}
+
+\recommendation
+{Include statements should be sorted and grouped. Sorted by their hierarchical position in the system with low level files included first. Leave an empty line between groups of include statements.}
+{\lstinputlisting{\jobname.abc}}
+{
+	In addition to show the reader the individual include files, it also give an immediate clue about the modules that are involved.\newline
+	Include file paths must never be absolute. Compiler directives should instead be used to indicate root directories for includes.
+}
+
+\recommendation
+{Include statements must be located at the top of a file only.}
+{}
+{Common practice. Avoid unwanted compilation side effects by "hidden" include statements deep into a source file.}
+
+
+\begin{filecontents*}{\jobname.abc}
+	Header file:
+	class B;
+	class A 
+	{
+	    A(B* b);
+	} 
+	
+	Source file:
+	#include B.h
+	
+	A::A(B* b) {}
+\end{filecontents*}
+
+\recommendation
+{If it is possible include statements must be located in the cpp file and forward declarated in the header file.}
+{\lstinputlisting{\jobname.abc}}
+{}
+
+
+\section{Statements}
+\subsection{Types}
+
+\recommendation
+{Types that are local to one file only can be declared inside that file.}
+{}
+{Enforces information hiding.}
+
+\recommendation
+{The parts of a class must be sorted public, protected and private. All sections must be identified explicitly. Not applicable sections should be left out.}
+{}
+{The ordering is \textit{"most public first"} so people who only wish to use the class can stop reading when they reach the protected/private sections.}
+
+\recommendation
+{Type conversions must always be done explicitly. Never rely on implicit type conversion.}
+{floatValue = static\_cast\template{float}(intValue); // NOT: floatValue = intValue;}
+{By this, the programmer indicates that he is aware of the different types involved and that the mix is intentional.}
+
+\subsection{Variables}
+
+\recommendation
+{Variables should be initialized where they are declared.}
+{}
+{
+	This ensures that variables are valid at any time. Sometimes it is impossible to initialize a variable to a valid value where it is declared:\newline
+	int x, y, z;\newline
+	getCenter(\&x, \&y, \&z);\newline
+	In these cases it should be left uninitialized rather than initialized to some phony value.
+}
+
+\recommendation
+{Variables must never have dual meaning.}
+{}
+{Enhance readability by ensuring all concepts are represented uniquely. Reduce chance of error by side effects.}
+
+\recommendation
+{Use of global variables should be minimized.}
+{}
+{In C++ there is no reason global variables need to be used at all. The same is true for global functions or file scope (static) variables.}
+
+\recommendation
+{Class variables should never be declared public (exception: performance bottle neck)}
+{}
+{
+	The concept of C++ information hiding and encapsulation is violated by public variables. Use private variables and access functions instead. One exception to this rule is when the class is essentially a data structure, with no behavior (equivalent to a C struct). In this case it is appropriate to make the class' instance variables public.\newline
+	Note that structs are kept in C++ for compatibility with C only, and avoiding them increases the readability of the code by reducing the number of constructs used. Use a class instead.
+}
+
+\recommendation
+{C++ pointers and references should have their reference symbol next to the type rather than to the name.}
+{
+	float* x; // NOT: float *x;\newline
+	int\& y;  // NOT: int \&y;
+}
+{The pointer-ness or reference-ness of a variable is a property of the type rather than the name. C-programmers often use the alternative approach, while in C++ it has become more common to follow this recommendation.}
+
+\recommendation
+{Implicit test for \textit{0} should not be used other than for boolean variables and pointers.}
+{
+	if (nLines != 0)  // NOT: if (nLines)\newline
+	if (value != 0.0) // NOT: if (value)
+}
+{
+	It is not necessarily defined by the C++ standard that ints and floats 0 are implemented as binary 0. Also, by using an explicit test the statement gives an immediate clue of the type being tested.\newline
+	It is common also to suggest that pointers shouldn't test implicitly for 0 either, i.e. if (line == 0) instead of if (line). The latter is regarded so common in C/C++ however that it can be used.
+}
+
+\recommendation
+{Variables should be declared in the smallest scope possible.}
+{}
+{Keeping the operations on a variable within a small scope, it is easier to control the effects and side effects of the variable.}
+
+\subsection{Loops}
+
+
+\begin{filecontents*}{\jobname.abc}
+	isDone = false;
+	while (!isDone) {
+		//...
+	}
+\end{filecontents*}
+
+\begin{filecontents*}{\jobname.def}
+	//NOT:
+	bool isDone = false;
+	//...
+	while (!isDone) {
+		//...
+	}
+\end{filecontents*}
+
+\recommendation
+{Loop variables should be initialized immediately before the loop.}
+{\lstinputlisting{\jobname.abc}
+\lstinputlisting{\jobname.def}}
+{}
+
+\recommendation
+{do-while loops can be avoided.}
+{}
+{
+	\textit{do-while} loops are less readable than ordinary while loops and for loops since the conditional is at the bottom of the loop. The reader must scan the entire loop in order to understand the scope of the loop.\newline
+	In addition, do-while loops are not needed. Any \textit{do-while} loop can easily be rewritten into a \textit{while} loop or a \textit{for} loop. Reducing the number of constructs used enhance readbility.
+}
+
+
+\begin{filecontents*}{\jobname.abc}
+	while (true) {
+		//...
+	}
+
+	for (;;) {  // NO!
+		//...
+	}
+
+	while (1) { // NO!
+		//...
+	}
+\end{filecontents*}
+
+\recommendation
+{The form while(true) should be used for infinite loops.}
+{\lstinputlisting{\jobname.abc}}
+{Testing against 1 is neither necessary nor meaningful. The form for (;;) is not very readable, and it is not apparent that this actually is an infinite loop.}
+
+\subsection{Conditionals}
+
+
+\begin{filecontents*}{\jobname.abc}
+	bool isFinished = (elementNo < 0) || (elementNo > maxElement);
+	bool isRepeatedEntry = elementNo == lastElement;
+	if (isFinished || isRepeatedEntry) {
+		//...
+	}
+	
+	// NOT:
+	if ((elementNo < 0) || (elementNo > maxElement)||
+	elementNo == lastElement) {
+		//...
+	}
+\end{filecontents*}
+
+\recommendation
+{Complex conditional expressions must be avoided. Introduce temporary boolean variables instead}
+{\lstinputlisting{\jobname.abc}}
+{By assigning boolean variables to expressions, the program gets automatic documentation. The construction will be easier to read, debug and maintain.}
+
+
+\begin{filecontents*}{\jobname.abc}
+	bool isOk = readFile (fileName);
+	if (isOk) {
+		//...
+	}
+	else {
+		//...
+	}
+\end{filecontents*}
+
+\recommendation
+{The nominal case should be put in the if-part and the exception in the else-part of an if statement.}
+{\lstinputlisting{\jobname.abc}}
+{Makes sure that the exceptions don't obscure the normal path of execution. This is important for both the readability and performance.}
+
+
+\begin{filecontents*}{\jobname.abc}
+	if (isDone)  // NOT: if (isDone) doCleanup();
+		doCleanup();
+\end{filecontents*}
+
+\recommendation
+{The conditional should be put on a separate line.}
+{\lstinputlisting{\jobname.abc}}
+{This is for debugging purposes. When writing on a single line, it is not apparent whether the test is really true or not.}
+
+
+\begin{filecontents*}{\jobname.abc}
+	File* fileHandle = open(fileName, "w");
+	if (!fileHandle) {
+		//...
+	}
+	
+	// NOT:
+	if (!(fileHandle = open(fileName, "w"))) {
+		//...
+	}
+\end{filecontents*}
+
+\recommendation
+{Executable statements in conditionals must be avoided.}
+{\lstinputlisting{\jobname.abc}}
+{Conditionals with executable statements are just very difficult to read. This is especially true for programmers new to C/C++.}
+
+\subsection{Miscellaneous}
+
+\recommendation
+{The use of magic numbers in the code should be avoided. Numbers other than \textit{0} and \textit{1} should be considered declared as named constants instead.}
+{}
+{If the number does not have an obvious meaning by itself, the readability is enhanced by introducing a named constant instead. A different approach is to introduce a method from which the constant can be accessed.}
+
+
+\begin{filecontents*}{\jobname.abc}
+	double total = 0.0;    // NOT:  double total = 0;
+	double speed = 3.0e8;  // NOT:  double speed = 3e8;
+	
+	double sum;
+	//...
+	sum = (a + b) * 10.0;
+\end{filecontents*}
+
+\recommendation
+{Floating point constants should always be written with decimal point and at least one decimal.}
+{\lstinputlisting{\jobname.abc}}
+{
+	This emphasizes the different nature of integer and floating point numbers. Mathematically the two model completely different and non-compatible concepts.\newline
+	Also, as in the last example above, it emphasizes the type of the assigned variable (sum) at a point in the code where this might not be evident.
+}
+
+\recommendation
+{Floating point constants should always be written with a digit before the decimal point.}
+{double total = 0.5;  // NOT:  double total = .5;}
+{The number and expression system in C++ is borrowed from mathematics and one should adhere to mathematical conventions for syntax wherever possible. Also, 0.5 is a lot more readable than .5; There is no way it can be mixed with the integer 5.}
+
+
+\begin{filecontents*}{\jobname.abc}
+	int getValue()   // NOT: getValue()
+	{
+		//...
+	}
+\end{filecontents*}
+
+\recommendation
+{Functions must always have the return value explicitly listed.}
+{\lstinputlisting{\jobname.abc}}
+{If not exlicitly listed, C++ implies int return value for functions. A programmer must never rely on this feature, since this might be confusing for programmers not aware of this artifact.}
+
+\recommendation
+{goto must not be used.}
+{}
+{Goto statements violate the idea of structured code. Only in some very few cases (for instance breaking out of deeply nested structures) should goto be considered, and only if the alternative structured counterpart is proven to be less readable.}
+
+\recommendation
+{\textit{0} should be used instead of \textit{NULL}.}
+{}
+{NULL is part of the standard C library, but is made obsolete in C++.}
+
+\section{Layout and Comments}
+\subsection{Layout}
+
+\begin{filecontents*}{\jobname.abc}
+    for (i = 0; i < nElements; i++)
+        a[i] = 0;
+\end{filecontents*}
+
+\recommendation
+{Basic indentation should be 4.}
+{\lstinputlisting{\jobname.abc}}
+{}
+
+
+\begin{filecontents*}{\jobname.abc}
+	
+	while (!done) {
+	    doSomething();
+	    done = moreToDo();
+	}
+\end{filecontents*}
+
+\begin{filecontents*}{\jobname.def}
+	//NOT
+	while (!done)
+	{
+	    doSomething();
+	    done = moreToDo();
+	}
+\end{filecontents*}
+
+\recommendation
+{Block layout should be as illustrated in example 1 below (recommended) and must not be as shown in example 2.}
+{
+	\begin{tabularx}{\linewidth}{p{.5\linewidth} p{.5\linewidth}}
+		\lstinputlisting{\jobname.abc}&
+		\lstinputlisting{\jobname.def}
+	\end{tabularx}
+}
+{}
+
+
+\begin{filecontents*}{\jobname.abc}
+	class SomeClass : public BaseClass
+	{
+		public:
+		//...
+		
+		protected:
+		//...
+		
+		private:
+		//...
+	}
+\end{filecontents*}
+
+\recommendation
+{The class declarations should have the following form:}
+{\lstinputlisting{\jobname.abc}}
+{This follows partly from the general block rule above.}
+
+
+\begin{filecontents*}{\jobname.abc}
+	void someMethod()
+	{
+		...
+	}
+\end{filecontents*}
+
+\recommendation
+{Method definitions should have the following form:}
+{\lstinputlisting{\jobname.abc}}
+{This follows from the general block rule above.}
+
+
+\begin{filecontents*}{\jobname.abc}
+	if (condition) {
+	    statements;
+	}
+	
+	if (condition) {
+	    statements;
+	}
+	else {
+	    statements;
+	}
+	
+	if (condition) {
+	    statements;
+	}
+	else if (condition) {
+	    statements;
+	}
+	else {
+	    statements;
+	}
+\end{filecontents*}
+
+\recommendation
+{The if-else class of statements should have the following form:}
+{\lstinputlisting{\jobname.abc}}
+{
+	This follows partly from the general block rule above. However, it might be discussed if an else clause should be on the same line as the closing bracket of the previous if or else clause:\newline
+	if (condition) \{\newline
+		statements;\newline
+	\} else \{\newline
+		statements;\newline
+	\}\newline
+	The chosen approach is considered better in the way that each part of the if-else statement is written on separate lines of the file. This should make it easier to manipulate the statement, for instance when moving else clauses around.
+}
+
+
+\begin{filecontents*}{\jobname.abc}
+	for (initialization; condition; update) {
+	    statements;
+	}
+\end{filecontents*}
+
+\recommendation
+{A for statement should have the following form:}
+{\lstinputlisting{\jobname.abc}}
+{This follows from the general block rule above.}
+
+
+\begin{filecontents*}{\jobname.abc}
+	for (initialization; condition; update)
+	    ;
+\end{filecontents*}
+
+\recommendation
+{An empty for statement should have the following form:}
+{\lstinputlisting{\jobname.abc}}
+{This emphasizes the fact that the for statement is empty and it makes it obvious for the reader that this is intentional. Empty loops should be avoided however.}
+
+
+\begin{filecontents*}{\jobname.abc}
+	while (condition) {
+	    statements;
+	}
+\end{filecontents*}
+
+\recommendation
+{A while statement should have the following form:}
+{\lstinputlisting{\jobname.abc}}
+{This follows from the general block rule above.}
+
+
+\begin{filecontents*}{\jobname.abc}
+	do {
+	    statements;
+	} while (condition);
+\end{filecontents*}
+
+\recommendation
+{A do-while statement should have the following form:}
+{\lstinputlisting{\jobname.abc}}
+{This follows from the general block rule above.}
+
+
+\begin{filecontents*}{\jobname.abc}
+	switch (condition) {
+	    case ABC :
+		    statements;
+		    // Fallthrough
+		
+	    case DEF :
+		    statements;
+		    break;
+		
+	    case XYZ :
+		    statements;
+		    break;
+		
+	    default :
+		    statements;
+		    break;
+	}
+\end{filecontents*}
+
+\recommendation
+{A switch statement should have the following form:}
+{\lstinputlisting{\jobname.abc}}
+{Note that each case keyword is indented relative to the switch statement as a whole. This makes the entire switch statement stand out. Note also the extra space before the : character. The explicit Fallthrough comment should be included whenever there is a case statement without a break statement. Leaving the break out is a common error, and it must be made clear that it is intentional when it is not there.}
+
+
+\begin{filecontents*}{\jobname.abc}
+	try {
+	   statements;
+	}
+	catch (Exception& exception) {
+	    statements;
+	}
+\end{filecontents*}
+
+\recommendation
+{A try-catch statement should have the following form:}
+{\lstinputlisting{\jobname.abc}}
+{This follows partly from the general block rule above. The discussion about closing brackets for if-else statements apply to the try-catch statments.}
+
+
+\begin{filecontents*}{\jobname.abc}
+	if (condition)
+	    statement;
+	
+	while (condition)
+	    statement;
+	
+	for (initialization; condition; update)
+	    statement;
+\end{filecontents*}
+
+\recommendation
+{Single statement if-else, for or while statements can be written without brackets.}
+{\lstinputlisting{\jobname.abc}}
+{It is a common recommendation that brackets should always be used in all these cases. However, brackets are in general a language construct that groups several statements. Brackets are per definition superfluous on a single statement. A common argument against this syntax is that the code will break \textit{if} an additional statement is added without also adding the brackets. In general however, code should never be written to accommodate for changes that \textit{might} arise.}
+
+
+\subsection{White Space}
+
+\begin{filecontents*}{\jobname.abc}
+	a = (b + c) * d; // NOT: a=(b+c)*d
+	
+	while (true)   // NOT: while(true) 
+	{
+	   //...
+		
+	doSomething(a, b, c, d);  // NOT: doSomething(a,b,c,d);
+		
+	case 100 :  // NOT: case 100:
+		
+	for (i = 0; i < 10; i++) {  // NOT: for(i=0;i<10;i++){
+	    //...	
+\end{filecontents*}
+
+\recommendation
+{
+	Conventional operators should be surrounded by a space character.\newline
+	C++ reserved words should be followed by a white space. \newline
+	Commas should be followed by a white space. \newline
+	Colons should be surrounded by white space. \newline
+	Semicolons in for statments should be followed by a space character.\newline
+}
+{\lstinputlisting{\jobname.abc}}
+{Makes the individual components of the statements stand out. Enhances readability. It is difficult to give a complete list of the suggested use of whitespace in C++ code. The examples above however should give a general idea of the intentions.}
+
+
+\begin{filecontents*}{\jobname.abc}
+		Matrix4x4 matrix = new Matrix4x4();
+		
+		double cosAngle = Math.cos(angle);
+		double sinAngle = Math.sin(angle);
+		
+		matrix.setElement(1, 1,  cosAngle);
+		matrix.setElement(1, 2,  sinAngle);
+		matrix.setElement(2, 1, -sinAngle);
+		matrix.setElement(2, 2,  cosAngle);
+		
+		multiply(matrix);
+\end{filecontents*}
+
+\recommendation
+{Logical units within a block should be separated by one blank line.}
+{\lstinputlisting{\jobname.abc}}
+{Enhance readability by introducing white space between logical units of a block.}
+
+
+\recommendation{Methods should be separated by one blank line.}{}{}
+
+
+\begin{filecontents*}{\jobname.abc}
+	AsciiFile* file;
+	int        nPoints;
+	float      x, y;
+\end{filecontents*}
+
+\recommendation
+{Variables in declarations can be left aligned.}
+{\lstinputlisting{\jobname.abc}}
+{Enhance readability. The variables are easier to spot from the types by alignment.}
+
+
+\begin{filecontents*}{\jobname.abc}
+	if      (a == lowValue)    compueSomething();
+	else if (a == mediumValue) computeSomethingElse();
+	else if (a == highValue)   computeSomethingElseYet();
+	
+	value = (potential * oilDensity)   / constant1 +
+	(depth             * waterDensity) / constant2 +
+	(zCoordinateValue  * gasDensity)   / constant3;
+	
+	minPosition     = computeDistance(min,     x, y, z);
+	averagePosition = computeDistance(average, x, y, z);
+	
+	switch (value) {
+		case PHASE_OIL   : strcpy(phase, "Oil");   break;
+		case PHASE_WATER : strcpy(phase, "Water"); break;
+		case PHASE_GAS   : strcpy(phase, "Gas");   break;
+	}
+\end{filecontents*}
+
+\recommendation
+{Alignment can be used wherever it enhances readability.}
+{\lstinputlisting{\jobname.abc}}
+{There are a number of places in the code where white space can be included to enhance readability even if this violates common guidelines. Many of these cases have to do with code alignment. General guidelines on code alignment are difficult to give, but the examples above should give a general clue.}
+
+
+\subsection{Comments}
+
+
+\begin{filecontents*}{\jobname.abc}
+	NOT: 
+	Point() {} // constructor
+	int nc; // number of cars
+	
+	f = m * a; // force = mass * acceleration
+	
+	BETTER:
+	force = mass * acceleration;
+\end{filecontents*}
+
+\recommendation
+{Tricky code should not be commented but rewritten!}
+{\lstinputlisting{\jobname.abc}}
+{In general, the use of comments should be minimized by making the code self-documenting by appropriate name choices and an explicit logical structure.}
+
+\recommendation
+{All comments should be written in English.}
+{}
+{In an international environment English is the preferred language.}
+
+\recommendation{Use \textit{//} for all comments, including multi-line comments.}
+{
+	// Comment spanning\newline
+	// more than one line.
+}
+{
+	Since multilevel C-commenting is not supported, using // comments ensure that it is always possible to comment out entire sections of a file using /* */ for debugging purposes etc.\newline
+	There should be a space between the "//" and the actual comment, and comments should always start with an upper case letter and end with a period.
+}
+
+\section{Functions and Methods}
+
+
+\begin{filecontents*}{\jobname.abc}
+	NOT: 
+	void Triangle::computeNormal()
+	{
+	   Vertex edge1 = v2 - v1;
+	   Vertex edge2 = v3 - v1;
+		
+	   // cross product:
+	   double a = edge1.y * edge2.z - edge1.z * edge2.y;
+	   double b = edge1.z * edge2.x - edge1.x * edge2.z;
+	   double c = edge1.x * edge2.y - edge1.y * edge2.x;
+		
+	   this->normal = Vertex(a, b, c);
+	}
+	
+	BETTER:
+	void Triangle::computeNormal()
+	{
+	   Vertex edge1 = v2 - v1;
+	   Vertex edge2 = v3 - v1;
+	
+	   this->normal = crossProduct(edge1, edge2);
+	}
+\end{filecontents*}
+
+\recommendation
+{Methods should do one thing (the compiler will inline the method-call by itself!)}
+{\lstinputlisting{\jobname.abc}}
+{Comments and line breaks are an indication for multiple responsibilities.}
