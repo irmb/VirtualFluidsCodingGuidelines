@@ -1,6 +1,0 @@
- //NOT
- while (!done)
- {
-     doSomething();
-     done = moreToDo();
- }
