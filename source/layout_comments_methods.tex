@@ -1,0 +1,371 @@
+\section{Layout and Comments}
+\subsection{Layout}
+
+\begin{filecontents*}{\jobname.abc}
+    for (i = 0; i < nElements; i++)
+        a[i] = 0;
+\end{filecontents*}
+
+\recommendation
+{Basic indentation should be 4.}
+{\lstinputlisting{\jobname.abc}}
+{}
+
+
+\begin{filecontents*}{\jobname.abc}
+	
+	while (!done) {
+	    doSomething();
+	    done = moreToDo();
+	}
+\end{filecontents*}
+
+\begin{filecontents*}{\jobname.def}
+	//NOT
+	while (!done)
+	{
+	    doSomething();
+	    done = moreToDo();
+	}
+\end{filecontents*}
+
+\recommendation
+{Block layout should be as illustrated in example 1 below (recommended) and must not be as shown in example 2.}
+{
+	\begin{tabularx}{\linewidth}{p{.5\linewidth} p{.5\linewidth}}
+		\lstinputlisting{\jobname.abc}&
+		\lstinputlisting{\jobname.def}
+	\end{tabularx}
+}
+{}
+
+
+\begin{filecontents*}{\jobname.abc}
+	class SomeClass : public BaseClass
+	{
+		public:
+		//...
+		
+		protected:
+		//...
+		
+		private:
+		//...
+	}
+\end{filecontents*}
+
+\recommendation
+{The class declarations should have the following form:}
+{\lstinputlisting{\jobname.abc}}
+{This follows partly from the general block rule above.}
+
+
+\begin{filecontents*}{\jobname.abc}
+	void someMethod()
+	{
+		...
+	}
+\end{filecontents*}
+
+\recommendation
+{Method definitions should have the following form:}
+{\lstinputlisting{\jobname.abc}}
+{This follows from the general block rule above.}
+
+\begin{filecontents*}{\jobname.abc}
+	if (condition) {
+	    statements;
+	}
+	
+	if (condition) {
+	    statements;
+	}
+	else {
+	    statements;
+	}
+	
+	if (condition) {
+	    statements;
+	}
+	else if (condition) {
+	    statements;
+	}
+	else {
+	    statements;
+	}
+\end{filecontents*}
+
+\recommendation
+{The if-else class of statements should have the following form:}
+{\lstinputlisting{\jobname.abc}}
+{
+	This follows partly from the general block rule above. However, it might be discussed if an else clause should be on the same line as the closing bracket of the previous if or else clause:\newline
+	if (condition) \{\newline
+		statements;\newline
+	\} else \{\newline
+		statements;\newline
+	\}\newline
+	The chosen approach is considered better in the way that each part of the if-else statement is written on separate lines of the file. This should make it easier to manipulate the statement, for instance when moving else clauses around.
+}
+
+
+\begin{filecontents*}{\jobname.abc}
+	for (initialization; condition; update) {
+	    statements;
+	}
+\end{filecontents*}
+
+\recommendation
+{A for statement should have the following form:}
+{\lstinputlisting{\jobname.abc}}
+{This follows from the general block rule above.}
+
+
+\begin{filecontents*}{\jobname.abc}
+	for (initialization; condition; update)
+	    ;
+\end{filecontents*}
+
+\recommendation
+{An empty for statement should have the following form:}
+{\lstinputlisting{\jobname.abc}}
+{This emphasizes the fact that the for statement is empty and it makes it obvious for the reader that this is intentional. Empty loops should be avoided however.}
+
+
+\begin{filecontents*}{\jobname.abc}
+	while (condition) {
+	    statements;
+	}
+\end{filecontents*}
+
+\recommendation
+{A while statement should have the following form:}
+{\lstinputlisting{\jobname.abc}}
+{This follows from the general block rule above.}
+
+
+\begin{filecontents*}{\jobname.abc}
+	do {
+	    statements;
+	} while (condition);
+\end{filecontents*}
+
+\recommendation
+{A do-while statement should have the following form:}
+{\lstinputlisting{\jobname.abc}}
+{This follows from the general block rule above.}
+
+
+\begin{filecontents*}{\jobname.abc}
+	switch (condition) {
+	    case ABC :
+		    statements;
+		    // Fallthrough
+		
+	    case DEF :
+		    statements;
+		    break;
+		
+	    case XYZ :
+		    statements;
+		    break;
+		
+	    default :
+		    statements;
+		    break;
+	}
+\end{filecontents*}
+
+\recommendation
+{A switch statement should have the following form:}
+{\lstinputlisting{\jobname.abc}}
+{Note that each case keyword is indented relative to the switch statement as a whole. This makes the entire switch statement stand out. Note also the extra space before the : character. The explicit Fallthrough comment should be included whenever there is a case statement without a break statement. Leaving the break out is a common error, and it must be made clear that it is intentional when it is not there.}
+
+
+\begin{filecontents*}{\jobname.abc}
+	try {
+	   statements;
+	}
+	catch (Exception& exception) {
+	    statements;
+	}
+\end{filecontents*}
+
+\recommendation
+{A try-catch statement should have the following form:}
+{\lstinputlisting{\jobname.abc}}
+{This follows partly from the general block rule above. The discussion about closing brackets for if-else statements apply to the try-catch statments.}
+
+
+\begin{filecontents*}{\jobname.abc}
+	if (condition)
+	    statement;
+	
+	while (condition)
+	    statement;
+	
+	for (initialization; condition; update)
+	    statement;
+\end{filecontents*}
+
+\recommendation
+{Single statement if-else, for or while statements can be written without brackets.}
+{\lstinputlisting{\jobname.abc}}
+{It is a common recommendation that brackets should always be used in all these cases. However, brackets are in general a language construct that groups several statements. Brackets are per definition superfluous on a single statement. A common argument against this syntax is that the code will break \textit{if} an additional statement is added without also adding the brackets. In general however, code should never be written to accommodate for changes that \textit{might} arise.}
+
+
+\subsection{White Space}
+
+\begin{filecontents*}{\jobname.abc}
+	a = (b + c) * d; // NOT: a=(b+c)*d
+	
+	while (true)   // NOT: while(true) 
+	{
+	   //...
+		
+	doSomething(a, b, c, d);  // NOT: doSomething(a,b,c,d);
+		
+	case 100 :  // NOT: case 100:
+		
+	for (i = 0; i < 10; i++) {  // NOT: for(i=0;i<10;i++){
+	    //...	
+\end{filecontents*}
+
+\recommendation
+{
+	Conventional operators should be surrounded by a space character.\newline
+	C++ reserved words should be followed by a white space. \newline
+	Commas should be followed by a white space. \newline
+	Colons should be surrounded by white space. \newline
+	Semicolons in for statments should be followed by a space character.\newline
+}
+{\lstinputlisting{\jobname.abc}}
+{Makes the individual components of the statements stand out. Enhances readability. It is difficult to give a complete list of the suggested use of whitespace in C++ code. The examples above however should give a general idea of the intentions.}
+
+
+\begin{filecontents*}{\jobname.abc}
+		Matrix4x4 matrix = new Matrix4x4();
+		
+		double cosAngle = Math.cos(angle);
+		double sinAngle = Math.sin(angle);
+		
+		matrix.setElement(1, 1,  cosAngle);
+		matrix.setElement(1, 2,  sinAngle);
+		matrix.setElement(2, 1, -sinAngle);
+		matrix.setElement(2, 2,  cosAngle);
+		
+		multiply(matrix);
+\end{filecontents*}
+
+\recommendation
+{Logical units within a block should be separated by one blank line.}
+{\lstinputlisting{\jobname.abc}}
+{Enhance readability by introducing white space between logical units of a block.}
+
+
+\recommendation{Methods should be separated by one blank line.}{}{}
+
+
+\begin{filecontents*}{\jobname.abc}
+	AsciiFile* file;
+	int        nPoints;
+	float      x, y;
+\end{filecontents*}
+
+\recommendation
+{Variables in declarations can be left aligned.}
+{\lstinputlisting{\jobname.abc}}
+{Enhance readability. The variables are easier to spot from the types by alignment.}
+
+
+\begin{filecontents*}{\jobname.abc}
+	if      (a == lowValue)    compueSomething();
+	else if (a == mediumValue) computeSomethingElse();
+	else if (a == highValue)   computeSomethingElseYet();
+	
+	value = (potential * oilDensity)   / constant1 +
+	(depth             * waterDensity) / constant2 +
+	(zCoordinateValue  * gasDensity)   / constant3;
+	
+	minPosition     = computeDistance(min,     x, y, z);
+	averagePosition = computeDistance(average, x, y, z);
+	
+	switch (value) {
+		case PHASE_OIL   : strcpy(phase, "Oil");   break;
+		case PHASE_WATER : strcpy(phase, "Water"); break;
+		case PHASE_GAS   : strcpy(phase, "Gas");   break;
+	}
+\end{filecontents*}
+
+\recommendation
+{Alignment can be used wherever it enhances readability.}
+{\lstinputlisting{\jobname.abc}}
+{There are a number of places in the code where white space can be included to enhance readability even if this violates common guidelines. Many of these cases have to do with code alignment. General guidelines on code alignment are difficult to give, but the examples above should give a general clue.}
+
+
+\subsection{Comments}
+
+
+\begin{filecontents*}{\jobname.abc}
+	NOT: 
+	Point() {} // constructor
+	int nc; // number of cars
+	
+	f = m * a; // force = mass * acceleration
+	
+	BETTER:
+	force = mass * acceleration;
+\end{filecontents*}
+
+\recommendation
+{Tricky code should not be commented but rewritten!}
+{\lstinputlisting{\jobname.abc}}
+{In general, the use of comments should be minimized by making the code self-documenting by appropriate name choices and an explicit logical structure.}
+
+\recommendation
+{All comments should be written in English.}
+{}
+{In an international environment English is the preferred language.}
+
+\recommendation{Use \textit{//} for all comments, including multi-line comments.}
+{
+	// Comment spanning\newline
+	// more than one line.
+}
+{
+	Since multilevel C-commenting is not supported, using // comments ensure that it is always possible to comment out entire sections of a file using /* */ for debugging purposes etc.\newline
+	There should be a space between the "//" and the actual comment, and comments should always start with an upper case letter and end with a period.
+}
+
+\section{Functions and Methods}
+
+
+\begin{filecontents*}{\jobname.abc}
+	NOT: 
+	void Triangle::computeNormal()
+	{
+	   Vertex edge1 = v2 - v1;
+	   Vertex edge2 = v3 - v1;
+		
+	   // cross product:
+	   double a = edge1.y * edge2.z - edge1.z * edge2.y;
+	   double b = edge1.z * edge2.x - edge1.x * edge2.z;
+	   double c = edge1.x * edge2.y - edge1.y * edge2.x;
+		
+	   this->normal = Vertex(a, b, c);
+	}
+	
+	BETTER:
+	void Triangle::computeNormal()
+	{
+	   Vertex edge1 = v2 - v1;
+	   Vertex edge2 = v3 - v1;
+	
+	   this->normal = crossProduct(edge1, edge2);
+	}
+\end{filecontents*}
+
+\recommendation
+{Methods should do one thing (the compiler will inline the method-call by itself!)}
+{\lstinputlisting{\jobname.abc}}
+{Comments and line breaks are an indication for multiple responsibilities.}

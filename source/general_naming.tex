@@ -1,0 +1,262 @@
+\chapter{Recommendations}
+\section{General Recommendations}
+\vspace{.5cm}
+\recommendation
+{Any violation to the guide is allowed if it enhances readability.}
+{}
+{The main goal of the recommendation is to improve readability and thereby the understanding and the maintainability and general quality of the code. It is impossible to cover all the specific cases in a general guide and the programmer should be flexible.}
+
+\recommendation
+{The rules can be violated if there are strong personal objections against them.}
+{}
+{The attempt is to make a guideline, not to force a particular coding style onto individuals. Experienced programmers normally want to adopt a style like this anyway, but having one, and at least requiring everyone to get familiar with it, usually makes people start thinking about programming style and evaluate their own habits in this area.\newline
+On the other hand, new and inexperienced programmers normally use a style guide as a convenience of getting into the programming jargon more easily.}
+
+\section{Naming Recommendations}
+\subsection{General Naming Conventions}
+\recommendation
+{Names representing types must be in mixed case starting with upper case (Pascal Casing).}
+{Line, SavingsAccount}
+{Common practice in the C++ development community.}
+
+\recommendation
+{Variable names and attribute names must be in mixed case starting with lower case (Camel Casing).}
+{line, savingsAccount}
+{Common practice in the C++ development community. Makes variables easy to distinguish from types, and effectively resolves potential naming collision as in the declaration Line line;}
+
+\begin{filecontents*}{\jobname.abc}
+	int getMaxIterations() // NOT: MAX_ITERATIONS = 25
+	{
+	    return 25;
+	}
+\end{filecontents*}
+
+\recommendation
+{Named constants (including enumeration values) must be all uppercase using underscore to separate words.}
+{MAX\_ITERATIONS, COLOR\_RED, PI}
+{
+	Common practice in the C++ development community. In general, the use of such constants should be minimized. In many cases implementing the value as a method is a better choice:
+
+	\lstinputlisting{\jobname.abc}
+	
+	This form is both easier to read, and it ensures a unified interface towards class values.
+}
+
+\recommendation
+{Names representing methods or functions must be verbs and written in mixed case starting with lower case (Camel Casing).}
+{getName(), computeTotalWidth()}
+{Common practice in the C++ development community. This is identical to variable names, but functions in C++ are already distingushable from variables by their specific form.}
+
+\recommendation
+{Names representing namespaces should be all lowercase.}
+{model::analyzer, io::iomanager, common::math::geometry}
+{Common practice in the C++ development community}
+
+\recommendation
+{Names representing template types should be a single uppercase letter.}
+{
+	template\textless class T\textgreater ... \newline
+	template\textless class C, class D\textgreater ...
+}
+{Common practice in the C++ development community. This makes template names stand out relative to all other names used.}
+
+\recommendation
+{Abbreviations and acronyms must not be uppercase when used as name.}
+{
+	exportHtmlSource(); // NOT: exportHTMLSource(); \newline
+	openDvdPlayer();    // NOT: openDVDPlayer();
+}
+{Using all uppercase for the base name will give conflicts with the naming conventions given above. A variable of this type whould have to be named dVD, hTML etc. which obviously is not very readable. Another problem is illustrated in the examples above; When the name is connected to another, the readbility is seriously reduced; the word following the abbreviation does not stand out as it should.}
+
+\recommendation
+{Generic variables should have the same name as their type.}
+{
+	\begin{tabularx}{\textwidth}{l l}
+	 void setTopic(Topic* topic) &//NOT: void setTopic(Topic* value) \\
+	 &//NOT: void setTopic(Topic* aTopic) \\
+	 &//NOT: void setTopic(Topic* t) \\
+	 void connect(Database* database) &//NOT: void connect(Database* db) \\
+	 &//NOT: void connect (Database* oracleDB)
+	\end{tabularx}
+}
+{Reduce complexity by reducing the number of terms and names used. Also makes it easy to deduce the type given a variable name only.\newline
+If for some reason this convention doesn't seem to fit it is a strong indication that the type name is badly chosen.\newline
+Non-generic variables have a role. These variables can often be named by combining role and type:\newline
+Point  startingPoint, centerPoint;\newline
+Name   loginName;\newline
+}
+
+\recommendation
+{All names must be written in English.}
+{fileName; // NOT: dateiName}
+{English is the preferred language for international development.}
+
+\recommendation
+{Variables with a large scope should have long names, variables with a small scope can have short names.}
+{}
+{Scratch variables used for temporary storage or indices are best kept short. A programmer reading such variables should be able to assume that its value is not used outside of a few lines of code. Common scratch variables for integers are \textit{i, j, k, m, n} and for characters \textit{c} and \textit{d}.}
+
+\recommendation
+{The name of the object is implicit, and should be avoided in a method name.}
+{line.getLength(); // NOT: line.getLineLength();}
+{The latter seems natural in the class declaration, but proves superfluous in use, as shown in the example.}
+
+\subsection{Specific Naming Conventions}
+
+\recommendation
+{The terms \textit{get/set} must be used where an attribute is accessed directly.}
+{
+	employee.getName();\newline
+	employee.setName(name);\newline
+	
+	matrix.getElement(2, 4);\newline
+	matrix.setElement(2, 4, value);
+}
+{Common practice in the C++ development community. In Java this convention has become more or less standard.}
+
+\recommendation
+{The term \textit{compute} can be used in methods where something is computed.}
+{
+	valueSet-\textgreater computeAverage();\newline
+	matrix-\textgreater computeInverse()
+}
+{Give the reader the immediate clue that this is a potentially time-consuming operation, and if used repeatedly, he might consider caching the result. Consistent use of the term enhances readability.}
+
+\recommendation
+{The term \textit{find} can be used in methods where something is looked up.}
+{
+	vertex.findNearestVertex(); \newline
+	matrix.findMinElement();
+}
+{Give the reader the immediate clue that this is a simple look up method with a minimum of computations involved. Consistent use of the term enhances readability.}
+
+\recommendation
+{The term \textit{initialize} can be used where an object or a concept is established.}
+{printer.initializeFontSet();}
+{The american initialize should be preferred over the English initialise. Abbreviation init should be avoided.}
+
+\recommendation
+{Variables representing GUI components should be suffixed by the component type name.}
+{mainWindow, propertiesDialog, widthScale, loginText, leftScrollbar, mainForm, fileMenu, minLabel, exitButton, yesToggle etc.}
+{Enhances readability since the name gives the user an immediate clue of the type of the variable and thereby the objects resources.}
+
+\begin{filecontents*}{\jobname.abc}
+	vector<Point>  points;
+	int            values[];
+\end{filecontents*}
+
+\recommendation
+{Plural form should be used on names representing a collection of objects.}
+{\lstinputlisting{\jobname.abc}}
+{Enhances readability since the name gives the user an immediate clue of the type of the variable and the operations that can be performed on its elements.}
+
+\recommendation
+{The prefix \textit{n} should be used for variables representing a number of objects.}
+{nPoints, nLines}
+{The notation is taken from mathematics where it is an established convention for indicating a number of objects.}
+
+\begin{filecontents*}{\jobname.abc}
+	iTable = tables[i];
+\end{filecontents*}
+
+\recommendation
+{The prefix \textit{i} should be used for variables representing an entity number.}
+{iTable, iEmployee }
+{
+	This effectively makes them \textit{named} iterators.\newline
+	e.g.
+	\lstinputlisting{\jobname.abc}
+}
+
+\begin{filecontents*}{\jobname.abc}
+	for (int i = 0; i < nTables); i++) {
+		...
+	}
+	
+	for (vector<MyClass>::iterator i = list.begin(); i != list.end(); i++) {
+		Element element = *i;
+		...
+	}
+\end{filecontents*}
+
+\recommendation
+{Iterators and indices should be called \textit{i, j, k} etc., unless there is a specific meaning (e.g. \textit{x} for coordinate)}
+{\lstinputlisting{\jobname.abc}}
+{
+	The notation is taken from mathematics where it is an established convention for indicating iterators.\newline
+	Variables named \textit{j}, \textit{k} etc. should be used for nested loops only.
+}
+
+\recommendation
+{The prefix \textit{is} should be used for boolean variables and methods.}
+{isSet, isVisible, isFinished, isFound, isOpen}
+{
+	Common practice in the C++ development community and partially enforced in Java.\newline
+	Using the is prefix solves a common problem of choosing bad boolean names like status or flag. \textit{isStatus} or \textit{isFlag} simply doesn't fit, and the programmer is forced to choose more meaningful names.\newline
+	There are a few alternatives to the \textit{is} prefix that fit better in some situations. These are the \textit{has}, \textit{can} and \textit{should} prefixes:\newline
+	bool hasLicense();\newline
+	bool canEvaluate();\newline
+	bool shouldSort();\newline
+}
+
+\recommendation
+{Complement names must be used for complement operations.}
+{
+	get/set, add/remove, create/destroy, start/stop, insert/delete,
+	increment/decrement, old/new, begin/end, first/last, up/down, min/max,
+	next/previous, old/new, open/close, show/hide, suspend/resume, etc.
+}
+{Reduce complexity by symmetry.}
+
+\recommendation
+{Abbreviations in names should be avoided}
+{computeAverage(); //NOT: compAvg();}
+{
+	There are two types of words to consider. First are the common words listed in a language dictionary. These must never be abbreviated. Never write:\newline
+	cmd   instead of   command\newline
+	cp    instead of   copy\newline
+	pt    instead of   point\newline
+	comp  instead of   compute\newline
+	init  instead of   initialize\newline
+	etc.\newline
+	Then there are domain specific phrases that are more naturally known through their abbreviations/acronym. These phrases should be kept abbreviated. Never write:\newline
+	HypertextMarkupLanguage  instead of   html\newline
+	CentralProcessingUnit    instead of   cpu\newline
+	PriceEarningRatio        instead of   pe\newline
+	etc.
+}
+
+\recommendation
+{Naming pointers specifically should be avoided.}
+{
+	\begin{tabularx}{\textwidth}{ll}
+		Line* line;&// NOT: Line* pLine;\\
+		&// NOT: Line* linePtr;
+	\end{tabularx}
+}
+{Many variables in a C/C++ environment are pointers, so a convention like this is almost impossible to follow. Also objects in C++ are often oblique types where the specific implementation should be ignored by the programmer. Only when the actual type of an object is of special significance, the name should emphasize the type.}
+
+\recommendation
+{Negated boolean variable names must be avoided.}
+{
+	bool isError; // NOT: isNoError\newline
+	bool isFound; // NOT: isNotFound
+}
+{The problem arises when such a name is used in conjunction with the logical negation operator as this results in a double negative. It is not immediately apparent what !isNotFound means.}
+
+\begin{filecontents*}{\jobname.abc}
+	class AccessException
+	{
+		...
+	}
+\end{filecontents*}
+
+\recommendation
+{Exception classes should be suffixed with \textit{Exception}.}
+{\lstinputlisting{\jobname.abc}}
+{Exception classes are really not part of the main design of the program, and naming them like this makes them stand out relative to the other classes.}
+
+\recommendation
+{Functions (methods returning something) should be named after what they return and procedures (\textit{void} methods) after what they do.}
+{}
+{Increase readability. Makes it clear what the unit should do and especially all the things it is not supposed to do. This again makes it easier to keep the code clean of side effects.}

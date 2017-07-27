@@ -1,0 +1,125 @@
+\section{Files}
+\subsection{Source Files}
+
+\recommendation
+{C++ header files must have the extension \textit{.h} (preferred) or \textit{.hpp}. Source files must have the extension \textit{.cpp}. In Addition \textit{.cu} for cuda definition files and \textit{.cuh} for \textit{cuda} header files.}
+{MyClass.cpp, MyClass.h}
+{These are all accepted C++ standards for file extension.}
+
+\recommendation
+{A class should be declared in a header file and defined in a source file where the name of the files match the name of the class.}
+{MyClass.h, MyClass.cpp}
+{Makes it easy to find the associated files of a given class. An obvious exception is template classes that must be both declared and defined inside a .h file.}
+
+
+\begin{filecontents*}{\jobname.abc}
+	class MyClass
+	{
+		public:
+		int getValue () {return value_;}  // NO!
+		...
+		private:
+		int value_;
+	}
+\end{filecontents*}
+
+\recommendation
+{All definitions should reside in source files.}
+{\lstinputlisting{\jobname.abc}}
+{The header files should declare an interface, the source file should implement it. When looking for an implementation, the programmer should always know that it is found in the source file.}
+
+\recommendation
+{
+	Special characters like TAB and page break must be avoided.\newline
+	Rule: TAB = 4 spaces\newline
+	indent = 4 spaces
+}
+{}
+{These characters are bound to cause problem for editors, printers, terminal emulators or debuggers when used in a multi-programmer, multi-platform environment.}
+
+
+\begin{filecontents*}{\jobname.abc}
+	totalSum = a + b + c +
+	d + e;
+	
+	function (param1, param2,
+	param3);
+	
+	setText ("Long line split"
+	"into two parts.");
+	
+	for (int tableNo = 0; tableNo < nTables;
+	tableNo += tableStep) {
+		...
+	}
+\end{filecontents*}
+
+\recommendation
+{The incompleteness of split lines must be made obvious.}
+{\lstinputlisting{\jobname.abc}}
+{
+	Split lines occurs when a statement exceed the 80 column limit given above. It is difficult to give rigid rules for how lines should be split, but the examples above should give a general hint.\newline
+	In general:\newline
+	Break after a comma.\newline
+	Break after an operator.\newline
+	Align the new line with the beginning of the expression on the previous line.
+}
+
+\subsection{Include Files and Include Statements}
+
+\begin{filecontents*}{\jobname.abc}
+	#ifndef COM_COMPANY_MODULE_CLASSNAME_H
+	#define COM_COMPANY_MODULE_CLASSNAME_H
+	:
+	#endif // COM_COMPANY_MODULE_CLASSNAME_H
+\end{filecontents*}
+
+\recommendation
+{Header files must contain an include guard.}
+{\lstinputlisting{\jobname.abc}}
+{The construction is to avoid compilation errors. The name convention resembles the location of the file inside the source tree and prevents naming conflicts.}
+
+
+\begin{filecontents*}{\jobname.abc}
+	#include <fstream>
+	#include <iomanip>
+	
+	#include <qt/qbutton.h>
+	#include <qt/qtextfield.h>
+	
+	#include "com/company/ui/PropertiesDialog.h"
+	#include "com/company/ui/MainWindow.h"
+\end{filecontents*}
+
+\recommendation
+{Include statements should be sorted and grouped. Sorted by their hierarchical position in the system with low level files included first. Leave an empty line between groups of include statements.}
+{\lstinputlisting{\jobname.abc}}
+{
+	In addition to show the reader the individual include files, it also give an immediate clue about the modules that are involved.\newline
+	Include file paths must never be absolute. Compiler directives should instead be used to indicate root directories for includes.
+}
+
+\recommendation
+{Include statements must be located at the top of a file only.}
+{}
+{Common practice. Avoid unwanted compilation side effects by "hidden" include statements deep into a source file.}
+
+
+\begin{filecontents*}{\jobname.abc}
+	Header file:
+	class B;
+	class A 
+	{
+	    A(B* b);
+	} 
+	
+	Source file:
+	#include B.h
+	
+	A::A(B* b) {}
+\end{filecontents*}
+
+\recommendation
+{If it is possible include statements must be located in the cpp file and forward declarated in the header file.}
+{\lstinputlisting{\jobname.abc}}
+{}
